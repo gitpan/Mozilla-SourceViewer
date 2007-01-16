@@ -25,12 +25,16 @@
 class PListener : public nsIWebProgressListener, public nsSupportsWeakReference
 {
 public:
-    PListener() : load_complete_(PR_FALSE) {}
+    PListener() : starts_(0) {}
     
     NS_DECL_ISUPPORTS
     NS_DECL_NSIWEBPROGRESSLISTENER
-    
-    PRBool load_complete_;
+
+	/* There is one start more than stop */
+	int is_loading() const { return this->starts_ > 1; }
+
+private:
+    int starts_;
     
 };
 
@@ -42,11 +46,19 @@ PListener::OnStateChange(nsIWebProgress *aWebProgress,
 			     PRUint32        flags,
 			     nsresult        aStatus)
 {
+	/*
+	fprintf(stderr, "# %p OnStateChange: %x %d %d %d %d %d\n"
+		, this, flags, flags & STATE_START, flags & STATE_STOP
+		, this->load_complete_
+		, !!(flags & STATE_IS_REQUEST)
+		, !!(flags & STATE_IS_DOCUMENT));
+	*/
+
 	if (flags & STATE_START)
-		this->load_complete_ = PR_FALSE;
+		this->starts_++;
 
 	if (flags & STATE_STOP)
-		this->load_complete_ = PR_TRUE;
+		this->starts_--;
 	return NS_OK;
 }
 
@@ -191,7 +203,7 @@ Get_Page_Source(me)
 			while(gtk_events_pending()) {
 				gtk_main_iteration();
 			}
-		} while (!plis->load_complete_);
+		} while (plis->is_loading());
 
 		new_doc_shell->GetContentViewer(getter_AddRefs(content_viewer));
 		if (!content_viewer)
@@ -218,6 +230,7 @@ Get_Page_Source(me)
 			goto out_retval;
 
 		res = sel_str;
+		nsMemory::Free(sel_str);
 out_retval:
 		RETVAL = res;
 	OUTPUT:
