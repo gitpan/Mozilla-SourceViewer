@@ -7,9 +7,10 @@ use ExtUtils::MakeMaker;
 use ExtUtils::PkgConfig;
 use ExtUtils::Depends;
 
-my %pkgcfg = ExtUtils::PkgConfig->find("mozilla-gtkmozembed >= 1.7");
+my %pkgcfg = ExtUtils::PkgConfig->find("mozilla-gtkmozembed >= 1.8"
+		, "firefox-gtkmozembed >= 2.0");
 my $dep = ExtUtils::Depends->new('Mozilla::SourceViewer', 'Gtk2::MozEmbed');
-$dep->set_inc($pkgcfg{cflags}, "-I/usr/include/mozilla/widget");
+$dep->set_inc($pkgcfg{cflags});
 $dep->set_libs($pkgcfg{libs});
 $dep->add_c("nsWeakReference.c");
 $dep->add_xs("SourceViewer.xs");
@@ -23,7 +24,7 @@ WriteMakefile(
        AUTHOR         => 'Boris Sukholitko <boriss@gmail.com>') : ()),
     DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
     CC            => 'g++',
-    LD            => "LD_RUN_PATH=/usr/lib/mozilla $Config{ld}",
+    LD            => "$Config{ld}",
   $dep->get_makefile_vars,
 	# Un-comment this if you add C files to link with later:
     # OBJECT            => '$(O_FILES)', # link all the C files too

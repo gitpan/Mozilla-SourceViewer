@@ -4,18 +4,19 @@
 
 #include "ppport.h"
 
-#include <mozilla/nsCOMPtr.h>
-#include <mozilla/docshell/nsIDocShell.h>
-#include <mozilla/docshell/nsIWebPageDescriptor.h>
-#include <mozilla/nsIInterfaceRequestorUtils.h>
-#include <mozilla/webbrwsr/nsCWebBrowser.h>
-#include <mozilla/xpcom/nsComponentManagerUtils.h>
-#include <mozilla/docshell/nsIDocShellTreeItem.h>
+#include <nsCOMPtr.h>
+#include <nsEmbedCID.h>
+#include <docshell/nsIDocShell.h>
+#include <docshell/nsIWebPageDescriptor.h>
+#include <nsIInterfaceRequestorUtils.h>
+#include <widget/nsIBaseWindow.h>
+#include <nsComponentManagerUtils.h>
+#include <docshell/nsIDocShellTreeItem.h>
 #include <gtkmozembed2perl.h>
 #include <nsIWebProgressListener.h>
-#include <mozilla/nsWeakReference.h>
-#include <mozilla/nsStringAPI.h>
-#include <mozilla/xpcom/nsCRT.h>
+#include <nsWeakReference.h>
+#include <nsStringAPI.h>
+#include <xpcom/nsCRT.h>
 
 #undef Move
 #include <nsIContentViewer.h>
