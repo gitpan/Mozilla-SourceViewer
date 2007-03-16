@@ -1,5 +1,4 @@
 gtkmozembed2perl-version.h
-nsWeakReference.c
 t/test.html
 Makefile.PL
 MANIFEST
@@ -7,5 +6,6 @@ ppport.h
 README
 SourceViewer.xs
 t/Mozilla-SourceViewer.t
+t/one_time_http.pl
 lib/Mozilla/SourceViewer.pm
 META.yml                                 Module meta-data (added by MakeMaker)

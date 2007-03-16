@@ -23,10 +23,23 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
 our @EXPORT = qw(Get_Page_Source);
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 require XSLoader;
 XSLoader::load('Mozilla::SourceViewer', $VERSION);
+
+use File::Slurp;
+use Carp;
+use File::Temp qw(tempfile);
+
+sub Get_Page_Source {
+	my (undef, $tf) = tempfile();
+	Get_Page_Source_Into_File($_[0], $tf);
+	confess "# Wasn't able to get $tf" unless -f $tf;
+	my $res = read_file($tf);
+	unlink($tf);
+	return $res;
+}
 
 # Preloaded methods go here.
 
