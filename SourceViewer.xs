@@ -11,6 +11,11 @@
 #include <xpcom/nsCRT.h>
 #include <nsIWebBrowserPersist.h>
 #include <nsILocalFile.h>
+#include <nsIInputStream.h>
+#include <nsIWebNavigation.h>
+#include <nsISHistory.h>
+#include <nsIHistoryEntry.h>
+#include <shistory/nsISHEntry.h>
 
 class PListener : public nsIWebProgressListener
 {
@@ -129,10 +134,22 @@ Get_Page_Source_Into_File(me, path)
 		NS_NewNativeLocalFile(path, TRUE, getter_AddRefs(file));
 		persist->SetProgressListener(lis);
 
+		nsCOMPtr<nsIInputStream> pdata;
+		nsCOMPtr<nsIWebNavigation> wn(do_QueryInterface(bro));
+		nsCOMPtr<nsISHistory> shist;
+		wn->GetSessionHistory(getter_AddRefs(shist));
+		nsCOMPtr<nsIHistoryEntry> he;
+		PRInt32 sind;
+		shist->GetIndex(&sind);
+		shist->GetEntryAtIndex(sind, PR_FALSE , getter_AddRefs(he));
+		nsCOMPtr<nsISHEntry> she(do_QueryInterface(he));
+		if (she)
+			she->GetPostData(getter_AddRefs(pdata));
+
 		/*
 		fprintf(stderr, "# SaveURI %p %d\n", plis, plis->is_loading());
 		*/
-                persist->SaveURI(nsnull, nsnull, nsnull, nsnull, nsnull, file);
+                persist->SaveURI(nsnull, nsnull, nsnull, pdata, nsnull, file);
 		do {
 			while(gtk_events_pending()) {
 				gtk_main_iteration();

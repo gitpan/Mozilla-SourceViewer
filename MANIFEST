@@ -7,5 +7,6 @@ README
 SourceViewer.xs
 t/Mozilla-SourceViewer.t
 t/one_time_http.pl
+t/post.t
 lib/Mozilla/SourceViewer.pm
 META.yml                                 Module meta-data (added by MakeMaker)
