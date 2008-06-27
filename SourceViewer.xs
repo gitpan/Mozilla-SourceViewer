@@ -8,14 +8,14 @@
 #include <gtkmozembed2perl.h>
 #include <nsIWebProgressListener.h>
 #include <nsStringAPI.h>
-#include <xpcom/nsCRT.h>
+#include <nsCRT.h>
 #include <nsIWebBrowserPersist.h>
 #include <nsILocalFile.h>
 #include <nsIInputStream.h>
 #include <nsIWebNavigation.h>
 #include <nsISHistory.h>
 #include <nsIHistoryEntry.h>
-#include <shistory/nsISHEntry.h>
+#include <nsISHEntry.h>
 
 class PListener : public nsIWebProgressListener
 {
@@ -121,7 +121,7 @@ Get_Page_Source_Into_File(me, path)
 		nsCOMPtr<nsIWebProgressListener> lis;
 
 		plis = new PListener;
-		lis = NS_STATIC_CAST(nsIWebProgressListener *, plis);
+		lis = static_cast<nsIWebProgressListener *>(plis);
 
 		gtk_moz_embed_get_nsIWebBrowser(me, getter_AddRefs(bro));
 		assert(bro);

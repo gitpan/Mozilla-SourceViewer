@@ -19,7 +19,7 @@ WriteMakefile(
     NAME              => 'Mozilla::SourceViewer',
     VERSION_FROM      => 'lib/Mozilla/SourceViewer.pm', # finds $VERSION
     PREREQ_PM         => { 'Mozilla::Mechanize' => 0.05, "File::Slurp" => ""
-    				, "Mozilla::PromptService" => '' },
+    				, "Mozilla::PromptService" => '0.04' },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Mozilla/SourceViewer.pm', # retrieve abstract from module
        AUTHOR         => 'Boris Sukholitko <boriss@gmail.com>') : ()),
